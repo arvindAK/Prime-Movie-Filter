@@ -3,8 +3,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const { Client } = require('pg');
-const { Pool } = require('pg')
-require('dotenv').config();
+const { Pool } = require('pg');
 
 var app = express();
 
@@ -14,12 +13,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const pool = new Pool(
-//   {
-//   // connectionString: process.env.DATABASE_URL,
-//   // ssl: true
-// }
-);
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+});
 
 pool.on('error', (err, client) => {
   console.error('Unexpected error on idle client', err)
